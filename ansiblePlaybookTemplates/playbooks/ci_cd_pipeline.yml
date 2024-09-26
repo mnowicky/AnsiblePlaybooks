@@ -1,0 +1,22 @@
+---
+- name: CI/CD Pipeline Setup
+  hosts: ci_cd_servers
+  become: yes
+
+  tasks:
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Install Git plugin for Jenkins
+      jenkins_plugin:
+        name: git
+        state: present
+

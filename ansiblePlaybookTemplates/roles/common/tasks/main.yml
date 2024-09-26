@@ -1,0 +1,16 @@
+---
+- name: Install common packages
+  apt:
+    name:
+      - vim
+      - curl
+      - git
+      - htop
+    state: present
+
+- name: Ensure SSH service is running
+  service:
+    name: ssh
+    state: started
+    enabled: yes
+
