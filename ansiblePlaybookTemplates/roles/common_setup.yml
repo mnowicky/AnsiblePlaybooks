@@ -1,7 +1,0 @@
----
-- name: Setup Common Utilities
-  hosts: all
-  become: yes
-  roles:
-    - common
-
