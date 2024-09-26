@@ -1,0 +1,29 @@
+---
+- name: Configure Nginx
+  hosts: web_servers
+  become: yes
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Configure Nginx for MyWebApp
+      template:
+        src: nginx_mywebapp.conf.j2
+        dest: /etc/nginx/sites-available/mywebapp
+      notify: restart nginx
+
+    - name: Enable MyWebApp site
+      command: nginx -s reload
+      args:
+        chdir: /etc/nginx/sites-enabled
+        removes: mywebapp
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+

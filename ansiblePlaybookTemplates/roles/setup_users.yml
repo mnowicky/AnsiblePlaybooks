@@ -1,0 +1,26 @@
+---
+- name: Create Users and Set Up SSH Keys
+  hosts: all
+  become: yes
+  vars:
+    users:
+      - username: alice
+        ssh_key: "ssh-rsa AAAA..."
+      - username: bob
+        ssh_key: "ssh-rsa BBBB..."
+
+  tasks:
+    - name: Create user accounts
+      user:
+        name: "{{ item.username }}"
+        state: present
+        shell: /bin/bash
+      loop: "{{ users }}"
+
+    - name: Add SSH key for users
+      authorized_key:
+        user: "{{ item.username }}"
+        state: present
+        key: "{{ item.ssh_key }}"
+      loop: "{{ users }}"
+
